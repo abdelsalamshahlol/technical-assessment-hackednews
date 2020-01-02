@@ -3,13 +3,15 @@ import ReactDOM from 'react-dom';
 import TopTen from './components/topTen.jsx';
 // import $ from 'jquery';
 import axios from 'axios';
+import TopTenAuthors from './components/topTenAuthors.jsx';
 
 // const App = (props) => <TopTen />;
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            topTen: []
+            topTen: [],
+            newsTabActive: true
         }
     }
 
@@ -27,7 +29,12 @@ class App extends React.Component {
     }
 
     render() {
-        return <TopTen topTenStories={this.state.topTen} />;
+        return (
+            <div>
+                {this.state.newsTabActive && <TopTen topTenStories={this.state.topTen} />}
+                < TopTenAuthors />
+            </div>
+        );
     }
 }
 
