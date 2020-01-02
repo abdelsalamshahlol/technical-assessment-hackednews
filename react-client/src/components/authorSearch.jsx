@@ -21,7 +21,6 @@ class AuthorSearch extends React.Component {
         // Make a call to backend to get the data for that user
         axios.get(`/api/story/${this.state.userId}`)
             .then(({ data }) => {
-                console.log(data);
                 this.setState({
                     posts: data
                 });
@@ -32,6 +31,37 @@ class AuthorSearch extends React.Component {
     }
 
     render() {
+        let results = (
+            <div>
+                <div className="row">
+                    <div className="col">
+                        <h6 className="text-primary my-4">Showing results for {this.state.userId}</h6>
+                    </div>
+                </div>
+                <table className="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Points</th>
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            this.state.posts.map((story, i) => {
+                                return (
+                                    <tr key={i}>
+                                        <td>{story.title}</td>
+                                        <td>{story.score}</td>
+                                        <td>{story.kids.length}</td>
+                                    </tr>
+                                );
+                            })
+                        }
+                    </tbody>
+                </table>
+            </div>
+        )
         return (
             <div className="container">
                 <div className="row">
@@ -48,38 +78,15 @@ class AuthorSearch extends React.Component {
                     </div>
                 </div>
                 {
-                    this.state.posts.length ? (
-                        <div>
-                            <div className="row">
-                                <div className="col">
-                                    <h6>Showing results for {this.state.userId}</h6>
+                    this.state.posts.length > 0 ? results : (
+                        <div className="row">
+                            <div className="col">
+                                <div className="text-center">
+                                    <h1 className="display-3">Nothing to show</h1>
                                 </div>
                             </div>
-                            <table className="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Author</th>
-                                        <th>Score</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        this.state.posts.map((story, i) => {
-                                            return (
-                                                <tr key={i}>
-                                                    <td>{story.title}</td>
-                                                    <td>{story.by.id}</td>
-                                                    <td>{story.score}</td>
-                                                </tr>
-                                            );
-                                        })
-                                    }
-                                </tbody>
-                            </table>
                         </div>
-                    ) : ''
-
+                    )
                 }
             </div>
         );
