@@ -1,7 +1,7 @@
 const model = require('../models/story');
 
-function getTopStories() {
-    return model.getStories(10);
+function getTopStories(limit = 10) {
+    return model.getStories(limit);
 }
 
 exports.getTopStories = getTopStories;

@@ -5,24 +5,11 @@ var router = express.Router();
 
 router.route('/')
   .get(function (req, res) {
-    // TODO: Replace this with stories you've retrieved from the database
     storyController.getTopStories().then(data => {
       res.json(data);
     }).catch(err => {
       res.status(500).send('Internal server error');
-    })
-    // res.json([
-    //   {
-    //     author: 'ocdtrekkie',
-    //     title: 'Switch – New Video Game System [video]',
-    //     score: 536
-    //   },
-    //   {
-    //     author: 'mhb',
-    //     title: 'Video Games Are Changing the Way Soccer Is Played',
-    //     score: 100
-    //   }
-    // ]);
+    });
   });
 
 // Here we use express's route params
