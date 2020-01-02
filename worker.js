@@ -78,5 +78,6 @@ getJSONFromHackerNews(topStoriesURL, function (err, data) {
       mongoose.disconnect();
     }).catch(err => {
       console.error(err);
+      mongoose.disconnect();
     });
 });
