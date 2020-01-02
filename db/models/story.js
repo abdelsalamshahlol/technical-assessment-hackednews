@@ -38,7 +38,7 @@ function insertOne(story, callback) {
   StoryModel.create(story, callback);
 }
 
-// find top 10 stories
+// find top n stories
 function getStories(limit) {
   return StoryModel.find({}, null, {
     limit: limit,

@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server/index.js",
     "dev-react": "webpack -d --watch",
-    "seed-database": "node seed.js"
+    "seed-database": "node seed.js",
+    "worker": "node worker.js"
   },
   "keywords": [],
   "author": "",
