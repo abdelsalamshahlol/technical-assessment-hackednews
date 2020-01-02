@@ -48,6 +48,7 @@ function getStories(limit) {
   });
 }
 
+// Fetch user posts from database
 function getUserPosts(id, callback) {
   StoryModel.find({ "by.id": id }, callback);
 }

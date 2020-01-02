@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 class AuthorSearch extends React.Component {
     constructor(props) {
@@ -18,7 +19,16 @@ class AuthorSearch extends React.Component {
     getPosts(event) {
         event.preventDefault();
         // Make a call to backend to get the data for that user
-
+        axios.get(`/api/story/${this.state.userId}`)
+            .then(({ data }) => {
+                console.log(data);
+                this.setState({
+                    posts: data
+                });
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
 
     render() {
@@ -38,14 +48,39 @@ class AuthorSearch extends React.Component {
                     </div>
                 </div>
                 {
-                    this.state.userId &&
-                    <div className="row">
-                        <div className="col">
-                            <h6>Showing results for {this.state.userId}</h6>
+                    this.state.posts.length ? (
+                        <div>
+                            <div className="row">
+                                <div className="col">
+                                    <h6>Showing results for {this.state.userId}</h6>
+                                </div>
+                            </div>
+                            <table className="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Author</th>
+                                        <th>Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        this.state.posts.map((story, i) => {
+                                            return (
+                                                <tr key={i}>
+                                                    <td>{story.title}</td>
+                                                    <td>{story.by.id}</td>
+                                                    <td>{story.score}</td>
+                                                </tr>
+                                            );
+                                        })
+                                    }
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
+                    ) : ''
+
                 }
-                {this.state.posts}
             </div>
         );
     }
