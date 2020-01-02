@@ -40,10 +40,10 @@ class App extends React.Component {
             <div>
                 <ul className="nav nav-tabs">
                     <li className="nav-item">
-                        <a href="#" className="nav-link active" onClick={() => this.switch()}> <h3 className="display-4"> Top Ten Stories </h3></a>
+                        <a href="#" className={(this.state.newsTabActive ? "active " : '') + " nav-link"} onClick={() => this.switch()}> <h3 className="display-4"> Top Ten Stories </h3></a>
                     </li>
                     <li className="nav-item">
-                        <a href="#" className="nav-link" onClick={() => this.switch()}><h3 className="display-4"> Top Ten Stories </h3></a>
+                        <a href="#" className={(this.state.authorsTabActive ? "active " : '') + " nav-link"} onClick={() => this.switch()}><h3 className="display-4"> Top Ten Stories </h3></a>
                     </li>
                 </ul>
                 {this.state.newsTabActive && <TopTen topTenStories={this.state.topTen} />}
