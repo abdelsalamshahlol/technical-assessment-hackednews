@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var request = require('request');
+var Stories = require('./db/models/story.js');
 
 mongoose.connect('mongodb://localhost/hackednews');
 // In this file, build out a worker that will populate the database
@@ -28,27 +29,8 @@ var getJSONFromHackerNews = function (url, callback) {
     }
   });
 };
-let stories = [];
-getJSONFromHackerNews(topStoriesURL, function (err, data) {
-  /**
-   *  returned array contains IDs of each story
-   *  Loop each and make a call to get the story
-   *    For each story get user data
-   */
 
-  if (err) {
-    return console.log(err);
-  }
-
-  let promises = getStoriesDetails(data);
-
-  Promise.all(promises).then(result => {
-    console.log({ result: result[0].by })
-  });
-  // console.log(data, 'data, expect to be ids for top 500 stories');
-  mongoose.disconnect();
-});
-
+// Promise based function that will take array of top 500 stories IDs and fetch their details and authors
 // Get story details 
 var getStoriesDetails = function (storiesArr) {
   return storiesArr.map(storyId => {
@@ -58,9 +40,9 @@ var getStoriesDetails = function (storiesArr) {
           if (err) {
             reject(err);
           }
-          // Get user info here ?? lets try
-          let story = JSON.parse(body);
 
+          let story = JSON.parse(body);
+          // Get the author information for story
           request.get(`https://hacker-news.firebaseio.com/v0/user/${story.by}.json?print=pretty`,
             (err, resp, body) => {
               if (err) {
@@ -71,5 +53,30 @@ var getStoriesDetails = function (storiesArr) {
             });
         });
     });
-  })
+  });
 }
+
+/**
+ * This functions fetchs the top 500 story from HackerNews by invoking @function getStoriesDetails
+ * that returns array of @type <Promise> then resolves all promises and invokes @function insertMany
+ * and passes the array of 500 story to the ORM
+ */
+getJSONFromHackerNews(topStoriesURL, function (err, data) {
+  if (err) {
+    return console.log(err);
+  }
+
+  let promises = getStoriesDetails(data);
+
+  Promise.all(promises)
+    .then(stories500 => {
+      // Insert data to database
+      return Stories.StoryModel.insertMany(stories500);
+    })
+    .then(res => {
+      console.log('Worker inserted data');
+      mongoose.disconnect();
+    }).catch(err => {
+      console.error(err);
+    });
+});
