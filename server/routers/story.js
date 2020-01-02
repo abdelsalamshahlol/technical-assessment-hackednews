@@ -13,9 +13,17 @@ router.route('/')
   });
 
 // Here we use express's route params
+// Dedicated to fetch posts using USER ID
 router.route('/:id')
   .get(function (req, res) {
-
+    storyController.getUserStories(req.params.id, (err, result) => {
+      if (err) {
+        res.status(500).send('Internal server error');
+        return;
+      }
+      res.json(result);
+      return;
+    });
   });
 
 module.exports = router;

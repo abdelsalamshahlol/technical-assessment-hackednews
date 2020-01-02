@@ -48,9 +48,14 @@ function getStories(limit) {
   });
 }
 
+function getUserPosts(id, callback) {
+  StoryModel.find({ "by.id": id }, callback);
+}
+
 exports.findOne = findOne;
 exports.findAll = findAll;
 exports.insertOne = insertOne;
 exports.StoryModel = StoryModel;
 exports.getStories = getStories;
+exports.getUserPosts = getUserPosts;
 

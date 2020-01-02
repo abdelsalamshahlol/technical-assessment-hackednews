@@ -6,19 +6,19 @@ class AuthorSearch extends React.Component {
         this.state = {
             userId: null,
             posts: [],
-            query: null
         }
     }
 
     updateQuery(e) {
         this.setState({
-            query: e.target.value
+            userId: e.target.value
         });
     }
 
     getPosts(event) {
         event.preventDefault();
-        console.log(232)
+        // Make a call to backend to get the data for that user
+
     }
 
     render() {
