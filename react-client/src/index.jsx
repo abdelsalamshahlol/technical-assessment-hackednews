@@ -4,6 +4,7 @@ import TopTen from './components/topTen.jsx';
 // import $ from 'jquery';
 import axios from 'axios';
 import TopTenAuthors from './components/topTenAuthors.jsx';
+import AuthorSearch from './components/authorSearch.jsx';
 
 class App extends React.Component {
     constructor(props) {
@@ -81,7 +82,7 @@ class App extends React.Component {
                 </ul>
                 {this.state.newsTabActive && <TopTen topTenStories={this.state.topTenStories} />}
                 {this.state.authorsTabActive && < TopTenAuthors topTenAuthors={this.state.topTenAuthors} />}
-                {this.state.searchTabActive && <div>    sdse</div>}
+                {this.state.searchTabActive && <AuthorSearch />}
             </div>
         );
     }
