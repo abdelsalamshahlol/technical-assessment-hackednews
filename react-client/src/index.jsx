@@ -33,7 +33,6 @@ class App extends React.Component {
                     topTenStories: data,
                     topTenAuthors: authors,
                 });
-                console.log(data, authors);
             })
             .catch(error => {
                 console.error(error);

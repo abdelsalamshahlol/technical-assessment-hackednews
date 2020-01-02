@@ -71,7 +71,7 @@ getJSONFromHackerNews(topStoriesURL, function (err, data) {
   Promise.all(promises)
     .then(stories500 => {
       // Insert data to database
-      return Stories.StoryModel.insertMany(stories500);
+      return Stories.StoryModel.insertMany(stories500, { ordered: true });
     })
     .then(res => {
       console.log('Worker inserted data');

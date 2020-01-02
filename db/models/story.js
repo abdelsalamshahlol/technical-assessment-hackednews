@@ -42,9 +42,9 @@ function insertOne(story, callback) {
 function getStories(limit) {
   return StoryModel.find({}, null, {
     limit: limit,
-    sort: {
-      score: -1,
-    }
+    // sort: {
+    //   score: -1,
+    // }
   });
 }
 
