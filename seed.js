@@ -6,7 +6,7 @@ const fakeNews = require('./seed_data');
 mongoose.connect('mongodb://localhost/hackednews');
 
 // Defining the table schema
-let bySchema = new mongoose.schema({
+let bySchema = mongoose.Schema({
   "about": { type: String },
   "created": { type: Number },
   "id": String,
@@ -14,10 +14,10 @@ let bySchema = new mongoose.schema({
   "submitted": [Number]
 });
 
-let articleSchema = new mongoose.schema({
+let articleSchema = mongoose.Schema({
   "by": bySchema,
   "descendants": Number,
-  "id": Number,
+  "id": { type: Number, unique: true },
   "kids": [Number],
   "score": Number,
   "time": Number,
@@ -26,11 +26,17 @@ let articleSchema = new mongoose.schema({
   "url": String,
 });
 
+let Article = mongoose.model('Article', articleSchema);
+
 var seedDb = function (data) {
-  // your code here!
-  data.forEach((article, i) => {
-    const news = new mongoose.model('news')
+  Article.insertMany(data, (error, docs) => {
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    console.log('Done');
   });
 };
 
-seedDb(data);
+seedDb(fakeNews);
