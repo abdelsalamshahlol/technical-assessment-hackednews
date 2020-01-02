@@ -13,6 +13,7 @@ class App extends React.Component {
             topTenAuthors: [],
             newsTabActive: true,
             authorsTabActive: false,
+            searchTabActive: false
         }
     }
 
@@ -38,11 +39,24 @@ class App extends React.Component {
             });
     }
 
-    switch() {
+    switch(tab) {
+        let newsTabState = false;
+        let searchTabState = false;
+        let authorsTabState = false;
+
+        if (tab === 'news') {
+            newsTabState = true;
+        } else if (tab === 'authors') {
+            authorsTabState = true;
+        } else {
+            searchTabState = true;
+        }
+
         this.setState({
-            newsTabActive: !this.state.newsTabActive,
-            authorsTabActive: !this.state.authorsTabActive,
-        })
+            newsTabActive: newsTabState,
+            authorsTabActive: authorsTabState,
+            searchTabActive: searchTabState,
+        });
     }
 
     render() {
@@ -50,14 +64,24 @@ class App extends React.Component {
             <div>
                 <ul className="nav nav-tabs">
                     <li className="nav-item">
-                        <a href="#" className={(this.state.newsTabActive ? "active " : '') + " nav-link"} onClick={() => this.switch()}> <h3 className="display-4"> Top Ten Stories </h3></a>
+                        <a href="#" className={(this.state.newsTabActive ? "active " : '') + " nav-link"} onClick={() => this.switch('news')}>
+                            <h6> Top Ten Stories </h6>
+                        </a>
                     </li>
                     <li className="nav-item">
-                        <a href="#" className={(this.state.authorsTabActive ? "active " : '') + " nav-link"} onClick={() => this.switch()}><h3 className="display-4"> Top Ten Stories </h3></a>
+                        <a href="#" className={(this.state.authorsTabActive ? "active " : '') + " nav-link"} onClick={() => this.switch('authors')}>
+                            <h6> Top Ten Authors </h6>
+                        </a>
+                    </li>
+                    <li className="nav-item">
+                        <a href="#" className={(this.state.searchTabActive ? "active " : '') + " nav-link"} onClick={() => this.switch('search')}>
+                            <h6> Author Search </h6>
+                        </a>
                     </li>
                 </ul>
                 {this.state.newsTabActive && <TopTen topTenStories={this.state.topTenStories} />}
                 {this.state.authorsTabActive && < TopTenAuthors topTenAuthors={this.state.topTenAuthors} />}
+                {this.state.searchTabActive && <div>    sdse</div>}
             </div>
         );
     }
