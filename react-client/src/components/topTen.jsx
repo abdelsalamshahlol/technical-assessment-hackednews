@@ -5,7 +5,6 @@ import React from 'react';
 // You may wish to refactor the existing component structure - that's fine.
 const TopTen = ({ topTenStories }) => (
   <div>
-    <h3 className="display-4"> Top Ten Stories </h3>
     <table className="table table-hover">
       <thead>
         <tr>

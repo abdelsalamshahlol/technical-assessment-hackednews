@@ -5,13 +5,13 @@ import TopTen from './components/topTen.jsx';
 import axios from 'axios';
 import TopTenAuthors from './components/topTenAuthors.jsx';
 
-// const App = (props) => <TopTen />;
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             topTen: [],
-            newsTabActive: true
+            newsTabActive: true,
+            authorsTabActive: false,
         }
     }
 
@@ -24,15 +24,30 @@ class App extends React.Component {
                 })
             })
             .catch(error => {
-
+                console.error(error);
             });
+    }
+
+    switch() {
+        this.setState({
+            newsTabActive: !this.state.newsTabActive,
+            authorsTabActive: !this.state.authorsTabActive,
+        })
     }
 
     render() {
         return (
             <div>
+                <ul className="nav nav-tabs">
+                    <li className="nav-item">
+                        <a href="#" className="nav-link active" onClick={() => this.switch()}> <h3 className="display-4"> Top Ten Stories </h3></a>
+                    </li>
+                    <li className="nav-item">
+                        <a href="#" className="nav-link" onClick={() => this.switch()}><h3 className="display-4"> Top Ten Stories </h3></a>
+                    </li>
+                </ul>
                 {this.state.newsTabActive && <TopTen topTenStories={this.state.topTen} />}
-                < TopTenAuthors />
+                {this.state.authorsTabActive && < TopTenAuthors />}
             </div>
         );
     }
